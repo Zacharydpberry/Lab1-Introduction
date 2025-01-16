@@ -1,0 +1,110 @@
+//Image rotation 	
+
+
+%function to rotate image
+function [Out] = ZakRotate(In, theta)
+
+    %finding the centre point of the image 
+
+    width=size(In,1);
+    height=size(In,2); 
+
+    %find the centre point of the image
+
+    CentrePoint = [round(size(In,1)/2), round(size(In,2)/2)];
+     %testing with disp(CentrePoint); in Command Window to check centre
+     %point
+
+     forwardMatrix = [ cos(theta), -sin(theta) ;
+                       sin(theta), cos(theta)]
+
+     %using inv to calculate Reverse Transformation Matrix 
+
+     ReverseTransformationMatrix = inv(forwardMatrix); 
+
+
+     %using two for loops to apply the reverse transformation matrix to
+     %every pixel in the image 
+     for ypixel=1:height 
+         for xpixel=1:width
+             specifiedPixel = [xpixel, ypixel]; 
+         
+           newPixel = round(ReverseTransformationMatrix*(specifiedPixel-CentrePoint)'+CentrePoint');
+if newPixel(1)<1 | newPixel(2)<1 | newPixel(1)>width | newPixel(2)>height 
+%setting bounds, so if the new pixel after the transformation is outside of
+%the boundaries, then we will make it black 
+Out(xpixel, ypixel) = 0; 
+else 
+Out(xpixel, ypixel) = In(newPixel(1), newPixel(2)); 
+%Anything else - we set it to the transformed image
+    end 
+    end 
+    end 
+
+
+
+//Image Shear  
+
+ %function to shear image
+function [Out] =  ZakShear(In, Xshear, Yshear)
+
+    %finding the centre point of the image 
+
+    width=size(In,1);
+    height=size(In,2); 
+
+    %find the centre point of the image
+
+    CentrePoint = [round(size(In,1)/2), round(size(In,2)/2)];
+     %testing with disp(CentrePoint); in Command Window to check centre
+     %point
+
+     %The forwardMatrix for shearing transformation
+     forwardMatrix = [ 1, Xshear ;
+                      Yshear, 1]
+
+     %using inv to calculate Reverse Transformation Matrix 
+
+     ReverseTransformationMatrix = inv(forwardMatrix); 
+
+
+     %using two for loops to apply the reverse transformation matrix to
+     %every pixel in the image 
+     for ypixel=1:height 
+         for xpixel=1:width
+             specifiedPixel = [xpixel, ypixel]; 
+         
+           newPixel = round(ReverseTransformationMatrix*(specifiedPixel-CentrePoint)'+CentrePoint');
+if newPixel(1)<1 | newPixel(2)<1 | newPixel(1)>width | newPixel(2)>height 
+%setting bounds, so if the new pixel after the transformation is outside of
+%the boundaries, then we will make it black 
+Out(xpixel, ypixel) = 0; 
+else 
+Out(xpixel, ypixel) = In(newPixel(1), newPixel(2)); 
+%Anything else - we set it to the transformed image
+    end 
+    end 
+    end 
+
+
+//Had to remind myself of a few things on matlab including how to write for
+%loops. Also slightly struggled with calling the function. Couldn't call
+%the function from inside the editor, kept getting an error on line 9,
+%saying that there were not enough input arguments. Ended up finding a fix
+%by calling the function from the command window, and using imshow() to see
+%the new image. Interesting to learn that for line 83, changing the value
+%to 1 gives a white background, and that matlab uses 1, instead of 0, as
+%the first index of an array. 
+   
+     
+
+
+
+
+
+   
+     
+
+
+
+
