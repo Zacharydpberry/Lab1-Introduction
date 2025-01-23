@@ -48,4 +48,35 @@ I see 8 triangles in this picture. Again, my brain is drawing lines based on the
 the lines and shapes, which form the outline of a triangle. 
 
 
+Part 2
+
+MATLAB CODE
+
+RGB = imread('peppers.png'); 
+imshow(RGB)
+
+I = rgb2gray(RGB);
+figure              % start a new figure window
+imshow(I)
+
+imshowpair(RGB, I, 'montage')
+title('Original colour image (left) grayscale image (right)');
+
+[R,G,B] = imsplit(RGB);
+montage({R, G, B},'Size',[1 3])
+
+HSV = rgb2hsv(RGB);
+[H,S,V] = imsplit(HSV);
+montage({H,S,V}, 'Size', [1 3])
+
+XYZ = rgb2xyz(RGB)
+[X,Y,Z] = imsplit(XYZ);
+montage({X,Y,Z}, 'Size', [1 3])
+
+YCBCR = rgb2ycbcr(RGB);
+imshow(YCBCR)
+
+Tried out the YCBCR colour space at the end, which splits up luminance and different chrominance values of the image. 
+
+
 
